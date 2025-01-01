@@ -15,7 +15,7 @@ services:
   backend:
     image: def1s/jenkins-test-back:latest
     ports:
-      - "8080:8080"
+      - "8000:8000"
     environment:
       MONGO_URI: mongodb://mongodb:27017/nest
     depends_on:
