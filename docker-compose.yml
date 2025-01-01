@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: def1s/jenkins-test:latest
+    ports:
+      - "3000:80"
+#   environment:
+#     PORT: 3000
+#     API_URL: 8080 -> стоит по дефолту в сборщике
+    networks:
+      - app-network
+    restart: always
+
+  backend:
+    image: def1s/jenkins-test-back:latest
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/nest
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+    restart: always
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
